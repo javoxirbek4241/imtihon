@@ -13,7 +13,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # mahsulotni qo‘shgan foydalanuvchi
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     desc = models.TextField()
@@ -33,10 +33,10 @@ class Product(models.Model):
 
 class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    pos_text = models.TextField(blank=True, null=True)  # ijobiy fikr
-    neg_text = models.TextField(blank=True, null=True)  # salbiy fikr
+    pos_text = models.TextField(blank=True, null=True)
+    neg_text = models.TextField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    rate = models.PositiveIntegerField(default=0)  # reyting (yulduzcha)
+    rate = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
