@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ product.title }} - ShopBlog</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: #ffd966;
+      margin: 0; padding: 0;
+    }
+    header {
+      background-color: #b22222;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    nav {
+      background-color: #222;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      color: #ffd966;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #ff6347;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .product-header {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .product-image {
+      flex: 1 1 300px;
+      max-width: 400px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 15px #ff6347;
+    }
+    .product-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      background: #333;
+    }
+    .product-info {
+      flex: 1 1 300px;
+      color: #ffd966;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-info h1 {
+      margin: 0 0 15px 0;
+      text-transform: capitalize;
+    }
+    .product-price {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #ffcc00;
+      margin-bottom: 15px;
+    }
+    .product-desc {
+      margin-bottom: 20px;
+      line-height: 1.5;
+      color: #eee;
+    }
+    .product-stock {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+    hr {
+      border-color: #ff6347;
+      margin: 30px 0;
+    }
+    .comments-section {
+      margin-top: 20px;
+    }
+    .comment {
+      background-color: #1e1e1e;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+      color: #ffd966;
+      box-shadow: 0 0 10px rgba(255, 150, 150, 0.4);
+    }
+    .comment .username {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .comment .rate {
+      color: #ffcc00;
+      margin-bottom: 8px;
+    }
+    .comment .pos-text {
+      color: #ccffcc;
+      margin-bottom: 6px;
+    }
+    .comment .neg-text {
+      color: #ff9999;
+      margin-bottom: 6px;
+    }
+    form.comment-form {
+      margin-top: 30px;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #ff6347;
+    }
+    form.comment-form textarea {
+      width: 100%;
+      height: 80px;
+      border-radius: 6px;
+      border: none;
+      padding: 10px;
+      resize: vertical;
+      font-size: 1rem;
+      color: #222;
+    }
+    form.comment-form button {
+      background-color: #b22222;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    form.comment-form button:hover {
+      background-color: #ff6347;
+    }
+    .alert {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .alert-success {
+      background-color: #28a745;
+      color: white;
+    }
+    .alert-error {
+      background-color: #dc3545;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>ShopBlog</header>
+  <nav>
+    <a href="{% url 'index' %}">Bosh sahifa</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'profile' %}">Profil</a>
+      <a href="{% url 'logout' %}">Chiqish</a>
+    {% else %}
+      <a href="{% url 'login' %}">Kirish</a>
+      <a href="{% url 'signup' %}">Ro‘yxatdan o‘tish</a>
+    {% endif %}
+  </nav>
+
+  <div class="container">
+    <div class="product-header">
+      <div class="product-image">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.title }}" />
+        {% else %}
+          <div style="width:100%;height:300px;background:#333;"></div>
+        {% endif %}
+      </div>
+      <div class="product-info">
+        <h1>{{ product.title }}</h1>
+        <div class="product-price">{{ product.price }} so‘m</div>
+        <div class="product-stock">Soni: {{ product.stock }}</div>
+        <div class="product-desc">{{ product.desc|linebreaks }}</div>
+        <p><strong>Qo‘shilgan sana:</strong> {{ product.created_at|date:"d M Y H:i" }}</p>
+        <div class="product-actions" style="margin-top: 10px;">
+        <a href="{% url 'product_update' product.pk %}" class="btn btn-warning btn-sm">Tahrirlash</a>
+        <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Haqiqatan ham o‘chirmoqchimisiz?');">O‘chirish</a>
+        </div>
+
+      </div>
+    </div>
+
+    <hr />
+
+    <section class="comments-section">
+      <h2>Fikr-mulohazalar</h2>
+
+      {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-error{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+
+      {% if user.is_authenticated %}
+        <form method="POST" class="comment-form">
+          {% csrf_token %}
+          <textarea name="msg" placeholder="Fikringizni yozing..." required></textarea>
+          <button type="submit">Yuborish</button>
+        </form>
+      {% else %}
+        <p><a href="{% url 'login' %}">Kirish</a> qilmasangiz, fikr qoldira olmaysiz.</p>
+      {% endif %}
+
+      <div class="comments-list" style="margin-top:20px;">
+        {% for comment in comments %}
+          <div class="comment">
+{% if comment.user and comment.user.username %}
+  {{ comment.user.username }}
+{% else %}
+  Noma'lum foydalanuvchi
+{% endif %}
+            {% if comment.rate %}
+              <div class="rate">⭐ {{ comment.rate }}</div>
+            {% endif %}
+            {% if comment.pos_text %}
+              <div class="pos-text">+ {{ comment.pos_text }}</div>
+            {% endif %}
+            {% if comment.neg_text %}
+              <div class="neg-text">- {{ comment.neg_text }}</div>
+            {% endif %}
+            <div class="created">{{ comment.created_at|date:"d.m.Y H:i" }}</div>
+          </div>
+        {% empty %}
+          <p>Hali fikr-mulohaza yo‘q.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2025 ShopBlog. Barcha huquqlar himoyalangan.
+  </footer>
+</body>
+</html>

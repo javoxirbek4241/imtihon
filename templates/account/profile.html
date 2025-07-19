@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil - ShopBlog</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: #ffd966;
+      margin: 0; padding: 0;
+    }
+    header {
+      background-color: #b22222;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    nav {
+      background-color: #222;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      color: #ffd966;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #ff6347;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 15px;
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #ff6347;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 30px;
+      text-transform: capitalize;
+    }
+    .profile-info {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .profile-info strong {
+      color: #ffcc00;
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #b22222;
+      color: #fff;
+      padding: 10px 25px;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    a.button:hover {
+      background-color: #ff6347;
+    }
+  </style>
+</head>
+<body>
+  <header>ShopBlog</header>
+  <nav>
+    <a href="{% url 'index' %}">Bosh sahifa</a>
+    <a href="{% url 'profile' %}">Profil</a>
+    <a href="{% url 'logout' %}">Chiqish</a>
+  </nav>
+
+  <div class="container">
+    <h1>Salom, {{ user.username }}!</h1>
+    <div class="profile-info"><strong>Ism:</strong> {{ user.first_name }}</div>
+    <div class="profile-info"><strong>Familiya:</strong> {{ user.last_name }}</div>
+    <div class="profile-info"><strong>Email:</strong> {{ user.email }}</div>
+
+    <a href="{% url 'change-pass' %}" class="button">Parolni o‘zgartirish</a>
+    <a href="{% url 'profile-update' %}">Profilni yangilash</a>
+
+  </div>
+
+  <footer style="margin-top: 40px; padding: 20px 0; background-color: #b22222; text-align: center; color: #fff; font-size: 0.9rem;">
+    &copy; 2025 ShopBlog. Barcha huquqlar himoyalangan.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Qidiruv natijalari</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #fff7f0;
+            padding: 20px;
+            margin: 0;
+            position: relative;
+        }
+
+        h2, h1 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .post, .product {
+            border: 2px solid #ffcc80;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff3e0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.2);
+            transition: transform 0.2s;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .post:hover, .product:hover {
+            transform: scale(1.02);
+        }
+
+        .post img, .product img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        .info {
+            flex-grow: 1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #bf360c;
+            font-weight: bold;
+        }
+
+        p {
+            color: #5d4037;
+            margin: 5px 0;
+        }
+
+        small {
+            color: #888;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 87, 34, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(10);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>"{{ query }}" so'ziga mos postlar</h2>
+
+    {% if results %}
+        {% for post in results %}
+            <div class="post">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% endif %}
+                <div class="info">
+                    <h3><a href="{% url 'product_detail' post.pk %}">{{ post.title }}</a></h3>
+                    <p>{{ post.desc|truncatewords:20 }}</p>
+                    <small>{{ post.created_at|date:"d.m.Y H:i" }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Post topilmadi.</p>
+    {% endif %}
+
+    <h1>Qidiruv natijalari: "{{ qidiruv_soz }}"</h1>
+
+    {% if products %}
+        {% for product in products %}
+            <div class="product">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}">
+                {% endif %}
+                <div class="info">
+                    <a href="{% url 'product_detail' product.pk %}">{{ product.title }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Mahsulot topilmadi.</p>
+    {% endif %}
+
+    <script>
+        document.body.addEventListener("click", function(e) {
+            const ripple = document.createElement("span");
+            ripple.className = "ripple";
+            ripple.style.left = `${e.clientX}px`;
+            ripple.style.top = `${e.clientY}px`;
+            document.body.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    </script>
+
+</body>
+</html>

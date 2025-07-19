@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profilni yangilash - ShopBlog</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #ffd966;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    .update-container {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 450px;
+      margin: auto;
+      box-shadow: 0 0 15px #ff6347;
+    }
+    h1 {
+      color: #b22222;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-top: 5px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      background-color: #b22222;
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 1.1rem;
+    }
+    button:hover {
+      background-color: #ff6347;
+    }
+    .alert-success, .alert-error {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .alert-success {
+      background-color: #28a745;
+      color: white;
+    }
+    .alert-error {
+      background-color: #dc3545;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="update-container">
+    <h1>Profilni yangilash</h1>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <label for="{{ form.first_name.id_for_label }}">Ism</label>
+      {{ form.first_name }}
+
+      <label for="{{ form.last_name.id_for_label }}">Familiya</label>
+      {{ form.last_name }}
+
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email }}
+
+      <button type="submit">Saqlash</button>
+    </form>
+  </div>
+</body>
+</html>

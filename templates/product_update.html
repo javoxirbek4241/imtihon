@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mahsulotni tahrirlash</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1e1e1e; color: #ffae42; padding: 20px; }
+    form { max-width: 500px; margin: auto; background: #2a2a2a; padding: 20px; border-radius: 8px; }
+    label { display: block; margin-top: 15px; }
+    input, textarea, select { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: none; }
+    button { margin-top: 20px; padding: 10px 20px; background: #ff4500; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #ff6347; }
+    a { color: #ffae42; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Mahsulotni tahrirlash</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Yangilash</button>
+  </form>
+
+  <p><a href="{% url 'index' %}">Orqaga</a></p>
+
+</body>
+</html>

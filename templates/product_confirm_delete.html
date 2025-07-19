@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mahsulotni o‘chirish</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1e1e1e; color: #ff6347; padding: 20px; }
+    .container { max-width: 400px; margin: auto; background: #2a2a2a; padding: 20px; border-radius: 8px; text-align: center; }
+    button { padding: 10px 20px; background: #ff4500; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px; }
+    button:hover { background: #ff6347; }
+    a { color: #ffae42; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Haqiqatan ham "{{ product.title }}" mahsulotini o‘chirmoqchimisiz?</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit">Ha, o‘chir</button>
+      <a href="{% url 'index' %}">Bekor qilish</a>
+    </form>
+  </div>
+
+</body>
+</html>

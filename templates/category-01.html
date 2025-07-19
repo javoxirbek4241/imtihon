@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ category.name }} - ShopBlog</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0a0a0a;
+      color: #ffd966;
+      margin: 0; padding: 0;
+    }
+    header {
+      background-color: #b22222;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    nav {
+      background-color: #222;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      color: #ffd966;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    nav a:hover {
+      color: #ff6347;
+    }
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 15px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      color: #b22222;
+    }
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 25px;
+    }
+    .product-card {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #ff6347;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .product-card img:hover {
+      transform: scale(1.05);
+    }
+    .product-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #ffd966;
+    }
+    .product-desc {
+      flex-grow: 1;
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    .product-price {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #ffcc00;
+      margin-bottom: 15px;
+    }
+    .btn-details {
+      align-self: center;
+      text-decoration: none;
+      background-color: #b22222;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .btn-details:hover {
+      background-color: #ff6347;
+    }
+  </style>
+</head>
+<body>
+  <header>ShopBlog</header>
+  <nav>
+    <a href="{% url 'index' %}">Bosh sahifa</a>
+    <a href="{% url 'profile' %}">Profil</a>
+    <a href="{% url 'logout' %}">Chiqish</a>
+  </nav>
+
+  <main>
+    <h1>{{ category.name }}</h1>
+    <div class="product-list">
+      {% for product in products %}
+      <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+        <div class="product-info">
+          <div class="product-title">{{ product.title }}</div>
+          <div class="product-desc">{{ product.desc|truncatechars:100 }}</div>
+          <div class="product-price">{{ product.price }} UZS</div>
+          <a href="{% url 'product_detail' product.pk %}" class="btn-details">Batafsil</a>
+        </div>
+      </div>
+      {% empty %}
+      <p>Bu kategoriyada mahsulotlar mavjud emas.</p>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>
